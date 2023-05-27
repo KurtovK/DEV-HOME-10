@@ -51,14 +51,44 @@ class ExpressionConverter:
         """
         Метод который учитывает отрицательные значения и приводит инфиксную
         запись выражения к виду пригодному для перевода в постфиксную запись
-        :param expression:
+        :param expression: str: строковое выражение.
         :return:
+            str: строка.
         """
-        pass
+        if expression[0] == "-":
+            expression = "0" + expression
+        if "(-" in expression:
+            expression = expression.replace("(-", "(0-")
+        return expression
 
     @staticmethod
     def to_postfix(expression: str) -> list:
-        pass
+        result_str = ""
+        stack = Stack()
+        operation_value = ExpressionConverter.operation_priority
+        for symbol in expression:
+            if symbol.isdigit():
+                result_str += symbol
+            elif symbol == "(":
+                stack.push(symbol)
+            elif symbol == ")":
+                while stack.peek() != "(":
+                    result_str += stack.peek()
+                    stack.pop()
+                stack.pop()
+            elif symbol in "+-*/":
+                if len(stack) == 0:
+                    stack.push(symbol)
+                elif not stack.is_empty() and operation_value[symbol] <= operation_value[stack.peek()]:
+                    while not stack.is_empty() and operation_value[stack.peek()] >= operation_value[symbol]:
+                        result_str += stack.peek()
+                        stack.pop()
+                    stack.push(symbol)
+                else:
+                    stack.push(symbol)
+        while len(stack) != 0:
+            result_str += stack.pop()
+        return result_str.split()
 
 
 class Expression:
@@ -85,7 +115,10 @@ class Expression:
 
 
 def execute_application():
-    pass
+    expression_str = "6+(-3)*(-2)+(-9)*(-8+3*(-2))"
+    postfix_list = ExpressionConverter.to_postfix(expression_str)
+    print(postfix_list)
+
 
 
 if __name__ == '__main__':
