@@ -48,6 +48,9 @@ from stack import Stack
 #Дополнительное задание 2.
 #Напишите метод, который проверяет, правильно ли расставлены скобки
 #внутри инфиксной записи арифметического выражения.
+class BracketError(Exception):
+    def __init__(self, text: str):
+        self.text = text
 class ExpressionConverter:
     operation_priority = {
         '(': 0,
@@ -114,7 +117,13 @@ class ExpressionConverter:
     def to_postfix(expression: str) -> list:
         result_str = ""
         stack = Stack()
-        operation_value = ExpressionConverter.operation_priority
+        check_brackets = ExpressionConverter.__check_brackets(expression)
+        if check_brackets:
+            expression = ExpressionConverter.__normalize_infix_expression(expression)
+            expression = ExpressionConverter.__modification_expression(expression)
+            operation_value = ExpressionConverter.operation_priority
+        else:
+            raise BracketError(f"Не корректно расставлены скобки: {expression}.")
         for symbol in expression:
 #1.1
             if symbol.isdigit():
@@ -125,16 +134,18 @@ class ExpressionConverter:
 #1.3
             elif symbol == ")":
                 while stack.peek() != "(":
-                    result_str += stack.peek()
+                    result_str += " " + stack.peek()
                     stack.pop()
                 stack.pop()
+            elif symbol == " ":
+                result_str += symbol
 #1.4
             elif symbol in "+-*/":
                 if len(stack) == 0:
                     stack.push(symbol)
                 elif not stack.is_empty() and operation_value[symbol] <= operation_value[stack.peek()]:
                     while not stack.is_empty() and operation_value[stack.peek()] >= operation_value[symbol]:
-                        result_str += stack.peek()
+                        result_str += " " + stack.peek()
                         stack.pop()
                     stack.push(symbol)
                 else:
@@ -142,7 +153,7 @@ class ExpressionConverter:
 
 #2
         while len(stack) != 0:
-            result_str += stack.pop()
+            result_str += " " +  stack.pop()
         return result_str.split()
 
 
@@ -171,9 +182,11 @@ class Expression:
 
 def execute_application():
     expression_str = "6+(-3)*(-2)+(-9)*(-8+3*(-2))"
-    postfix_list = ExpressionConverter.to_postfix(expression_str)
-    print(postfix_list)
-
+    try:
+        postfix_list = ExpressionConverter.to_postfix(expression_str)
+        print(postfix_list)
+    except (BracketError) as e:
+        print(e)
 
 
 if __name__ == '__main__':
