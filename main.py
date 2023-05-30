@@ -197,13 +197,16 @@ class Expression:
 
 
 def execute_application():
-    expression_str = "6+(-3)*(-2)+(-9)*(-8+3*(-2))"
     try:
-        postfix_list = ExpressionConverter.to_postfix(expression_str)
-        print(postfix_list)
+        expression_1 = Expression("-6 - 3 * (-2) - 8 * (-5 - 3 * (-2))")
+        expression_2 = Expression("6 + 3 * 2 + 8 * (5 + 3 * 2)")
+        print(f"Выражение: {expression_1.infix_expression} в постфиксной записи имеет вид:",
+              *expression_1.postfix_expression)
+        print(f"Выражение: {expression_1.infix_expression} = {expression_1.get_expression_value()}")
+        print(f"\nВыражение: {expression_2.infix_expression} в постфиксной записи имеет вид:",
+              *expression_2.postfix_expression)
+        print(f"Выражение: {expression_2.infix_expression} = {expression_2.get_expression_value()}")
     except (BracketError) as e:
         print(e)
-
-
 if __name__ == '__main__':
     execute_application()
