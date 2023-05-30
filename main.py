@@ -58,28 +58,7 @@ class ExpressionConverter:
             expression = expression.replace("(-", "(0-")
         return expression
 
-    @staticmethod
-    def __check_drackets(expression: str)-> bool:
-        """
-        Проверка на правильность расстановки скобок '()'
-        :param expression str: строка
-        :return:
-            True: Корректно
-            False: Не корректно
-        """
-        brackets = {
-            "(": ")",
-            }
-        stack = Stack
-        for symbol in expression:
-            if symbol in brackets.keys():
-                stack.push(symbol)
-            elif not stack.is_empty() and symbol == brackets [stack.peek()]:
-                stack.pop()
-            elif symbol.isdigit() or symbol in "+-*/ ":
-                continue
-            else:
-                return False
+
     @staticmethod
     def __modification_expression(expression: str) -> str:
         """
@@ -96,25 +75,25 @@ class ExpressionConverter:
             elif symbol in "+-*/()":
                 res_str += " " + symbol + " "
         return res_str
+
     @staticmethod
     def to_postfix(expression: str) -> list:
         result_str = ""
         stack = Stack()
-        check_brackets = ExpressionConverter.__check_drackets(expression)
-        if check_brackets:
-            expression = ExpressionConverter.__normalize_infix_expression(expression)
-            expression = ExpressionConverter.__modification_expression(expression)
-            operation_value = ExpressionConverter.operation_priority
-        else:
-            raise BracketError(f"Не корректно расставлены скобки: {expression}.")
+
+        expression = ExpressionConverter.__normalize_infix_expression(expression)
+
+        expression = ExpressionConverter.__modification_expression(expression)
+        operation_value = ExpressionConverter.operation_priority
         for symbol in expression:
-#1.1
+            # 1.1.
             if symbol.isdigit():
                 result_str += symbol
-#1.2
+
+            # 1.2.
             elif symbol == "(":
                 stack.push(symbol)
-#1.3
+            # 1.3.
             elif symbol == ")":
                 while stack.peek() != "(":
                     result_str += " " + stack.peek()
@@ -122,11 +101,11 @@ class ExpressionConverter:
                 stack.pop()
             elif symbol == " ":
                 result_str += symbol
-#1.4
+            # 1.4.
             elif symbol in "+-*/":
                 if len(stack) == 0:
                     stack.push(symbol)
-                elif not stack.is_empty() and operation_value[symbol] <= operation_value[stack.peek()]:
+                elif operation_value[symbol] <= operation_value[stack.peek()]:
                     while not stack.is_empty() and operation_value[stack.peek()] >= operation_value[symbol]:
                         result_str += " " + stack.peek()
                         stack.pop()
@@ -134,9 +113,9 @@ class ExpressionConverter:
                 else:
                     stack.push(symbol)
 
-#2
+        # 2.
         while len(stack) != 0:
-            result_str += " " +  stack.pop()
+            result_str += " " + stack.pop()
         return result_str.split()
 
 
@@ -145,6 +124,43 @@ class Expression:
     def __init__(self, expression: str):
         self.__infix_expression = expression
         self.__postfix_expression = ExpressionConverter.to_postfix(expression)
+
+    @staticmethod
+    def __is_valid_expression(expression: str) -> bool:
+        """
+        Проверяет выражение на корректность ввода.
+        :param expression: str: строка.
+        :return:
+            True: корректно.
+            False: не корректно.
+        """
+        brackets = {
+            "(": ")",
+        }
+        stack = Stack()
+        for i, symbol in enumerate(expression):
+            if not symbol.isdigit() and symbol not in "+-*/() ":
+                raise ExpressionValueError(f"Не корректный символ {symbol}, в {expression}")
+            if symbol in "+-*/" and expression[i + 1] in "+-*/" and i != len(expression) - 1:
+                return False
+            if symbol in brackets.keys():
+                stack.push(symbol)
+            elif not stack.is_empty() and symbol == brackets[stack.peek()]:
+                stack.pop()
+            elif symbol.isdigit() or symbol in "+-*/ ":
+                continue
+            else:
+                return False
+
+        if stack.is_empty():
+            return True
+        raise BracketError(f"Не корректно расставлены скобки  {expression}")
+
+    def __setattr__(self, key, value):
+        if key == "_Expression__infix_expression" and not self.__is_valid_expression(value):
+            raise ExpressionValueError(f"Выражение: {value} не корректно.")
+        else:
+            object.__setattr__(self, key, value)
 
     @property
     def infix_expression(self):
@@ -155,26 +171,29 @@ class Expression:
         return self.__postfix_expression
 
     def get_expression_value(self):
-        '''
-        Возвращает значение выражения, записанного в постфиксной форме в поле __postfix_expression
+        """
+        Возвращает значение выражения, записанного в постфиксной форме
         :return:
-        '''
-    stack = Stack()
-    for symbol in self.__postfix_expression:
-        if symbol.isdigit():
-            stack.push(symbol)
+            float: результат выражения.
+        """
+        stack = Stack()
+        for symbol in self.postfix_expression:
+            if symbol.isdigit():
+                stack.push(symbol)
 
-        elif symbol in "+-*/":
-            a = int(stack.pop())
-            b = int(stack.pop())
-            if symbol == "+":
-                stack.push(b + a)
-            elif symbol == "-":
-                stack.push(b - a)
-            elif symbol == "*":
-                stack.push(b * a)
-            else:
-                stack.push(b / a)
+            elif symbol in "+-*/":
+                a = int(stack.pop())
+                b = int(stack.pop())
+                if symbol == "+":
+                    stack.push(b + a)
+                elif symbol == "-":
+                    stack.push(b - a)
+                elif symbol == "*":
+                    stack.push(b * a)
+                else:
+                    stack.push(b / a)
+
+        return stack.pop()
 
 
 def execute_application():
