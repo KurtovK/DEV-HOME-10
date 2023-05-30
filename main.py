@@ -117,7 +117,7 @@ class ExpressionConverter:
     def to_postfix(expression: str) -> list:
         result_str = ""
         stack = Stack()
-        check_brackets = ExpressionConverter.__check_brackets(expression)
+        check_brackets = ExpressionConverter.__check_drackets(expression)
         if check_brackets:
             expression = ExpressionConverter.__normalize_infix_expression(expression)
             expression = ExpressionConverter.__modification_expression(expression)
