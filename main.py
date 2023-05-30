@@ -37,6 +37,17 @@ from stack import Stack
 # Реализуйте метод to_postfix класса ExpressionConverter в файле
 # expression.py и протестируйте класс Expression.
 
+#Дополнительное задание 1.
+#Стандартный алгоритм перевода из инфиксной формы в постфиксную
+#форму записи не учитывает, что в выражении могут участвовать
+#отрицательные числа. Напишите метод, который приводит инфиксную форму
+#к виду пригодному для перевода в постфиксную форму. Отрицательные числа
+#в арифметическом выражение заключаются в круглые скобки, кроме случая
+#когда выражение начинается с отрицательного значения.
+
+#Дополнительное задание 2.
+#Напишите метод, который проверяет, правильно ли расставлены скобки
+#внутри инфиксной записи арифметического выражения.
 class ExpressionConverter:
     operation_priority = {
         '(': 0,
@@ -61,6 +72,44 @@ class ExpressionConverter:
             expression = expression.replace("(-", "(0-")
         return expression
 
+    @staticmethod
+    def __check_drackets(expression: str)-> bool:
+        """
+        Проверка на правильность расстановки скобок '()'
+        :param expression str: строка
+        :return:
+            True: Корректно
+            False: Не корректно
+        """
+        brackets = {
+            "(": ")",
+            }
+        stack = Stack
+        for symbol in expression:
+            if symbol in brackets.keys():
+                stack.push(symbol)
+            elif not stack.is_empty() and symbol == brackets [stack.peek()]:
+                stack.pop()
+            elif symbol.isdigit() or symbol in "+-*/ ":
+                continue
+            else:
+                return False
+    @staticmethod
+    def __modification_expression(expression: str) -> str:
+        """
+
+        Пробеловы между операндами и знаками.
+        :param expression: str: строка.
+        :return:
+            str: строка с расставленными пробелами.
+        """
+        res_str = ""
+        for symbol in expression:
+            if symbol.isdigit():
+                res_str += symbol
+            elif symbol in "+-*/()":
+                res_str += " " + symbol + " "
+        return res_str
     @staticmethod
     def to_postfix(expression: str) -> list:
         result_str = ""
