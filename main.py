@@ -87,16 +87,19 @@ class ExpressionConverter:
         brackets = {
             "(": ")",
             }
-        stack = Stack
+        stack = Stack()
         for symbol in expression:
             if symbol in brackets.keys():
                 stack.push(symbol)
-            elif not stack.is_empty() and symbol == brackets [stack.peek()]:
+            elif not stack.is_empty() and symbol == brackets[stack.peek()]:
                 stack.pop()
             elif symbol.isdigit() or symbol in "+-*/ ":
                 continue
             else:
                 return False
+        if stack.is_empty():
+            return True
+        return False
     @staticmethod
     def __modification_expression(expression: str) -> str:
         """
