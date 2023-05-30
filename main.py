@@ -67,15 +67,19 @@ class ExpressionConverter:
         stack = Stack()
         operation_value = ExpressionConverter.operation_priority
         for symbol in expression:
+#1.1
             if symbol.isdigit():
                 result_str += symbol
+#1.2
             elif symbol == "(":
                 stack.push(symbol)
+#1.3
             elif symbol == ")":
                 while stack.peek() != "(":
                     result_str += stack.peek()
                     stack.pop()
                 stack.pop()
+#1.4
             elif symbol in "+-*/":
                 if len(stack) == 0:
                     stack.push(symbol)
@@ -86,6 +90,8 @@ class ExpressionConverter:
                     stack.push(symbol)
                 else:
                     stack.push(symbol)
+
+#2
         while len(stack) != 0:
             result_str += stack.pop()
         return result_str.split()
