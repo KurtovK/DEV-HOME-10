@@ -18,4 +18,3 @@ class Deque:
     # len - возвращает количество элементов
     def __len__(self):
         return len(self.__data)
-    pass
