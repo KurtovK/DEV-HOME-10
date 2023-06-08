@@ -1,5 +1,5 @@
 from data_structure.linkedList import LinkedList
-
+from user import User
 
 class Queue:
     def __init__(self):
