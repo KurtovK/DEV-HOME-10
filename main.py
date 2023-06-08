@@ -19,8 +19,23 @@ class PriorityNode:
 class PriorityQueue:
     def __init__(self):
         self.head = None
+#проверка очереди на пустоту
     def is_empty(self):
         return self.head is None
+
+#добавление элемента c приоритетом в очередь
+    def insert_with_priority(self, data, priority):
+        new_node = PriorityNode(data, priority)
+        if self.is_empty() or priority > self.head.priority:
+            new_node.next = self.head
+            self.head = new_node
+        else:
+            current_node = self.head
+            while current_node.next is not None and priority <= current_node.next.priority:
+                current_node = current_node.next
+            new_node.next = current_node.next
+            current_node.next = new_node
+
 def execute_application():
     pass
 if __name__ == "__main__":
