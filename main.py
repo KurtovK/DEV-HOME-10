@@ -16,13 +16,13 @@ class PriorityNode:
         self.data = data
         self.priority = priority
         self.next = None
+
 class PriorityQueue:
     def __init__(self):
         self.head = None
 #проверка очереди на пустоту
     def is_empty(self):
         return self.head is None
-
 #добавление элемента c приоритетом в очередь
     def insert_with_priority(self, data, priority):
         new_node = PriorityNode(data, priority)
@@ -58,7 +58,41 @@ class PriorityQueue:
             while current_node is not None:
                 print(f"{current_node.data} (приоритет: {current_node.priority})")
                 current_node = current_node.next
+
 def execute_application():
-    pass
+    queue = PriorityQueue()
+
+    while True:
+        print("1. Добавить элемент с приоритетом")
+        print("2. Удалить элемент с наибольшим приоритетом")
+        print("3. Просмотреть элемент с наибольшим приоритетом")
+        print("4. Проверить, пуста ли очередь")
+        print("5. Показать все элементы очереди")
+        print("6. Выход")
+        choice = input("Выберите операцию: ")
+        if choice == "1":
+            data = input("Введите элемент: ")
+            priority = int(input("Введите приоритет: "))
+            queue.insert_with_priority(data, priority)
+        elif choice == "2":
+            data = queue.pull_highest_priority_element()
+            if data is not None:
+                print(f"Удален элемент {data}")
+        elif choice == "3":
+            data = queue.peek()
+            if data is not None:
+                print(f"Элемент с наибольшим приоритетом: {data}")
+        elif choice == "4":
+            if queue.is_empty():
+                print("Очередь пуста")
+            else:
+                print("Очередь не пуста")
+        elif choice == "5":
+            queue.show()
+        elif choice == "6":
+            break
+        else:
+            print("Неверный выбор операции")
+
 if __name__ == "__main__":
-    executer_application()
+    execute_application()
