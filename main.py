@@ -35,7 +35,14 @@ class PriorityQueue:
                 current_node = current_node.next
             new_node.next = current_node.next
             current_node.next = new_node
-
+#удаление элемента c высшим приоритетом из очереди
+    def pull_highest_priority_element(self):
+        if self.is_empty():
+            print("Очередь пуста")
+            return None
+        data = self.head.data
+        self.head = self.head.next
+        return data
 def execute_application():
     pass
 if __name__ == "__main__":
