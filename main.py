@@ -49,6 +49,15 @@ class PriorityQueue:
             print("Очередь пуста")
             return None
         return self.head.data
+# отображение всех элементов очереди на экран
+    def show(self):
+        if self.is_empty():
+            print("Очередь пуста")
+        else:
+            current_node = self.head
+            while current_node is not None:
+                print(f"{current_node.data} (приоритет: {current_node.priority})")
+                current_node = current_node.next
 def execute_application():
     pass
 if __name__ == "__main__":
