@@ -16,7 +16,9 @@ class PriorityNode:
         self.data = data
         self.priority = priority
         self.next = None
-
+class PriorityQueue:
+    def __init__(self):
+        self.head = None
 def execute_application():
     pass
 if __name__ == "__main__":
