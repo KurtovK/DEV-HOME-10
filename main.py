@@ -43,6 +43,12 @@ class PriorityQueue:
         data = self.head.data
         self.head = self.head.next
         return data
+#возврат самого большого по приоритету элемента
+    def peek(self):
+        if self.is_empty():
+            print("Очередь пуста")
+            return None
+        return self.head.data
 def execute_application():
     pass
 if __name__ == "__main__":
