@@ -17,6 +17,32 @@ class Task:
     def __lt__(self, other):
         return self.priority < other.priority
 
+class TaskList:
+    def __init__(self):
+        self.tasks = PriorityQueue()
+
+    def add_task(self, name: str, priority: int):
+        task = Task(name, priority)
+        self.tasks.put(task)
+
+    def execute_task(self):
+        if not self.tasks.empty():
+            task = self.tasks.get()
+            print(f"Выполняется задача {task.name} с приоритетом {task.priority}")
+        else:
+            print("Список задач пуст")
+
+    def change_priority(self, task_name: str, new_priority: int):
+        tasks_list = list(self.tasks.queue)
+        for i in range(len(tasks_list)):
+            if tasks_list[i].name == task_name:
+                tasks_list[i].priority = new_priority
+                self.tasks = PriorityQueue()
+                for task in tasks_list:
+                    self.tasks.put(task)
+                print(f"Приоритет задачи {task_name} изменен на {new_priority}")
+                return
+        print(f"Задача {task_name} не найдена в списке")
 def execute_application():
     pass
 if __name__ == "__main__":
