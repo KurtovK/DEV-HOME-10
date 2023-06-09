@@ -80,6 +80,39 @@ class MainWindow:
         self.quit_btn = tkinter.Button(self.main_window, text="Выход", font=("Arial", 16), width=22, command=self.main_window.quit)
         self.quit_btn.grid(row=5, columnspan=2)
 
+    def add_task(self):
+        name = input("Введите название задачи: ")
+        priority = int(input("Введите приоритет задачи (число от 1 до 10): "))
+        if priority < 1 or priority > 10:
+            print("Приоритет должен быть числом от 1 до 10")
+            return
+        self.task_list.add_task(name, priority)
+        if self.actual_task.get() == "":
+            self.actual_task.set(name)
+        print(f"Задача {name} добавлена в список")
+
+    def execute_task(self):
+        self.task_list.execute_task()
+        if not self.task_list.tasks.empty():
+            self.actual_task.set(self.task_list.tasks.queue[0].name)
+        else:
+            self.actual_task.set("")
+            print("Список задач пуст")
+
+    def change_priority(self):
+        task_name = input("Введите название задачи: ")
+        new_priority = int(input("Введите новый приоритет задачи (число от 1 до 10): "))
+        if new_priority < 1 or new_priority > 10:
+            print("Приоритет должен быть числом от 1 до 10")
+            return
+        self.task_list.change_priority(task_name, new_priority)
+        if not self.task_list.tasks.empty():
+            self.actual_task.set(self.task_list.tasks.queue[0].name)
+
+    def mainloop(self):
+        self.init()
+        self.main_window.geometry(self.MW_GEOMETRY)
+        self.main_window.mainloop()
 
 
 def execute_application():
