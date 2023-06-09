@@ -116,6 +116,8 @@ class MainWindow:
 
 
 def execute_application():
-    pass
+    main_window = MainWindow()
+    main_window.mainloop()
+
 if __name__ == "__main__":
     execute_application()
