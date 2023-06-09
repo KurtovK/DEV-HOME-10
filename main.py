@@ -58,6 +58,19 @@ class ToyotaFactory(CarsFactory):
     def create_coupe(self):
         return ToyotaCoupe()
 def execute_application():
-    pass
+    cars_factory = FordFactory()
+    sedan = cars_factory.create_sedan()
+    coupe = cars_factory.create_coupe()
+
+    print(sedan.name)
+    print(coupe.name)
+
+
+    cars_factory = ToyotaFactory()
+    sedan = cars_factory.create_sedan()
+    coupe = cars_factory.create_coupe()
+
+    print(sedan.name)
+    print(coupe.name)
 if __name__ == "__main__":
     execute_application()
