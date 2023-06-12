@@ -70,7 +70,18 @@ class Navigator:
 
 
 def execute_application():
-    pass
+    walking_strategy = WalkingStrategy()
+    driving_strategy = DrivingStrategy()
+    public_transport_strategy = PublicTransportStrategy()
+
+    decorated_driving_strategy = RouteLogger(driving_strategy)
+
+    navigator = Navigator(decorated_driving_strategy)
+    start_point = (55.753960, 37.620393)  # координаты Красной площади в Москве
+    end_point = (55.715230, 37.552450)  # координаты парка Горького в Москве
+
+    route = navigator.build_route(start_point, end_point)
+    print(route)  # выводим массив точек маршрута
 
 
 if __name__ == "__main__":
