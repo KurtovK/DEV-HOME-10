@@ -44,6 +44,25 @@ def get_primes_range(start, end):
 def get_current_time():
     now = datetime.datetime.now()
     return now.strftime("%I:%M %p")
+#Задание 4.
+#Используя синтаксис декораторов, произведите декорирование
+#функции из задания 3. Потенциальный вывод данных на экран после декорирования:
+#***************************
+#23:00
+#***************************
+def time_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("*"*27)
+        print(f"*** {get_current_time()} ***")
+        print("*"*27)
+        result = func(*args, **kwargs)
+        return result
+    return wrapper
+
+@time_decorator
+def some_function():
+    return "Конец!!!"
+
 
 def execute_application():
     print(get_primes(1000))
