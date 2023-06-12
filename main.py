@@ -25,7 +25,7 @@ def get_primes(n):
     return primes
 
 def execute_application():
-    pass
+    print(get_primes(1000))
 
 
 if __name__ == "__main__":
