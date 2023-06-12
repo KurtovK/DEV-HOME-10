@@ -1,4 +1,5 @@
 import time
+import datetime
 #Задание 1.
 #Создайте функцию, возвращающую список со всеми простыми числами
 #от 0 до 1000. Используя механизм декораторов посчитайте сколько секунд,
@@ -37,11 +38,18 @@ def get_primes_range(start, end):
             for j in range(i*i, end+1, i):   # вычеркиваем кратные
                 numbers[j] = False
     return primes
-
+#Задание 3.
+#Создайте функцию для отображения текущего времени. Функция не
+#принимает параметров.
+def get_current_time():
+    now = datetime.datetime.now()
+    return now.strftime("%I:%M %p")
 
 def execute_application():
     print(get_primes(1000))
     print(get_primes_range(50, 200))
+
+
 
 
 if __name__ == "__main__":
