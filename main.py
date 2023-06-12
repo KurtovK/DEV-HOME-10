@@ -9,7 +9,7 @@ def timer(func):
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()
-        print(f"Необходимое время: {end_time - start_time:.5f} секунд")
+        print(f"Необходимое время: {end_time - start_time:.5f} секунд.")
         return result
     return wrapper
 
@@ -26,17 +26,8 @@ def get_primes(n):
 #Задание 2.
 #Добавьте к первому заданию возможность передавать границы
 #диапазона для поиска всех простых чисел
-def timer(func):
-    def wrapper(*args, **kwargs):
-        start_time = time.time()
-        result = func(*args, **kwargs)
-        end_time = time.time()
-        print(f"Необходимое время: {end_time - start_time:.5f} секунд")
-        return result
-    return wrapper
-
 @timer
-def get_primes(start, end):
+def get_primes_range(start, end):
     primes = []
     numbers = [True] * (end+1)   # инициализируем список чисел
     for i in range(2, end+1):
@@ -46,8 +37,11 @@ def get_primes(start, end):
             for j in range(i*i, end+1, i):   # вычеркиваем кратные
                 numbers[j] = False
     return primes
+
+
 def execute_application():
     print(get_primes(1000))
+    print(get_primes_range(50, 200))
 
 
 if __name__ == "__main__":
