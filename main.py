@@ -35,7 +35,9 @@ class CardReader(USB):
         self.memory_card.insert()
         self.memory_card.copy_data()
 def execute_application():
-    pass
+    memory_card = MemoryCard("Мои фотографии")
+    card_reader = CardReader(memory_card)
+    card_reader.connect_with_usb_cable()
 
 
 if __name__ == "__main__":
