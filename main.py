@@ -70,7 +70,7 @@ def execute_application():
 
     current_time = get_current_time()
     print("Текущее время:", current_time)
-
+    print(some_function())
 
 if __name__ == "__main__":
     execute_application()
