@@ -49,7 +49,8 @@ def execute_application():
     print(get_primes(1000))
     print(get_primes_range(50, 200))
 
-
+    current_time = get_current_time()
+    print("Текущее время:", current_time)
 
 
 if __name__ == "__main__":
