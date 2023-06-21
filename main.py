@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 #принимающий в параметрах координаты начала и конца пути, а
 #возвращающий массив точек маршрута. Реализуйте класс навигатора,
 #который по переданной ему стратегии выполняет построение маршрута.
-from abc import ABC, abstractmethod
+
 class Point:
     def __init__(self, point_x: int, point_y: int):
         self.__point_x = point_x
