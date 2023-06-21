@@ -37,27 +37,26 @@ class LaboratoryDoor(Door):
 
 
 
-class Security:
-    def authenticate(self, password):
-        if password == "123":
+
+
+class SecurityDoor(Door):
+    def __init__(self, door: Door, password: str):
+        self.door = door
+        self.password = password
+        
+    def authenticate(self, entered_password):
+        if entered_password == self.password:
             return True
         else:
             return False
-
-class SecurityDoor(Door):
-    def __init__(self, door: Door, security: Security):
-        self.door = door
-        self.security = security
-
+    
     def open(self):
         password = input("Введите пароль:")
-
-        if self.security.authenticate(password):
+        if self.authenticate(password):
             print("Пароль верный. Дверь открыта.")
             self.door.open()
         else:
             print("Пароль не верный. Доступ запрещен.")
-
     def close(self):
         self.door.close()
 
@@ -66,9 +65,9 @@ class SecurityDoor(Door):
 def execute_application():
     lab_door = LaboratoryDoor()
 
-    security = Security()
 
-    secured_lab_door = SecurityDoor(lab_door, security)
+
+    secured_lab_door = SecurityDoor(lab_door,"123")
 
     secured_lab_door.open()
 
