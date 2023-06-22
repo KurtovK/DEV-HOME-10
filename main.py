@@ -43,7 +43,7 @@ class SecurityDoor(Door):
     def __init__(self, door: Door, password: str):
         self.door = door
         self.password = password
-        
+#Сделать приватным        
     def authenticate(self, entered_password):
         if entered_password == self.password:
             return True
@@ -64,9 +64,7 @@ class SecurityDoor(Door):
 
 def execute_application():
     lab_door = LaboratoryDoor()
-
-
-
+#сделать отдельным метод
     secured_lab_door = SecurityDoor(lab_door,"123")
 
     secured_lab_door.open()
