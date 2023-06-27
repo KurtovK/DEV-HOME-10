@@ -48,6 +48,14 @@ class Director:
         self.builder.insert_windows()
         self.builder.lay_roof()
 def execute_application():
-    pass
+    builder = HouseBuilder()
+    director = Director(builder)
+
+    # Строим дом
+    director.construct_house()
+    house = builder.get_house()
+
+    # Выводим на экран список частей дома
+    house.list_parts()
 if __name__ == "__main__":
     execute_application()
