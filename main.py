@@ -56,6 +56,22 @@ class TransportFactory:
             raise ValueError("Недопустимый тип транспорта")
 
 def execute_application():
-    pass
+    # Создаем объект фабрики
+    factory = TransportFactory()
+
+    # Создаем объекты транспортных средств
+    electric_scooter = factory.create_transport("electric_scooter")
+    bicycle = factory.create_transport("bicycle")
+    car = factory.create_transport("car")
+
+    # Используем методы объектов для получения информации о скорости и вместимости
+    print(f"Скорость электросамоката: {electric_scooter.get_speed()} км/ч")
+    print(f"Вместимость электросамоката: {electric_scooter.get_capacity()} единиц продукции")
+
+    print(f"Скорость велосипеда: {bicycle.get_speed()} км/ч")
+    print(f"Вместимость велосипеда: {bicycle.get_capacity()} единиц продукции")
+
+    print(f"Скорость автомобиля: {car.get_speed()} км/ч")
+    print(f"Вместимость автомобиля: {car.get_capacity()} единиц продукции")
 if __name__ == "__main__":
     execute_application()
