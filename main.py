@@ -43,26 +43,36 @@ class Car(Transport):
     def get_capacity(self):
         return 10
 
-class TransportFactory:
-    @staticmethod
-    def create_transport(transport_type):
-        if transport_type == "electric_scooter":
-            return ElectricScooter()
-        elif transport_type == "bicycle":
-            return Bicycle()
-        elif transport_type == "car":
-            return Car()
-        else:
-            raise ValueError("Недопустимый тип транспорта")
+class TransportFactory(ABC):
+    @abstractmethod
+    def create_transport(self):
+        pass
+
+
+class ElectricScooterFactory(TransportFactory):
+    def create_transport(self):
+        return ElectricScooter()
+
+
+class BicycleFactory(TransportFactory):
+    def create_transport(self):
+        return Bicycle()
+
+
+class CarFactory(TransportFactory):
+    def create_transport(self):
+        return Car()
 
 def execute_application():
     # Создаем объект фабрики
-    factory = TransportFactory()
+    electric_scooter_factory = ElectricScooterFactory()
+    bicycle_factory = BicycleFactory()
+    car_factory = CarFactory()
 
-    # Создаем объекты транспортных средств
-    electric_scooter = factory.create_transport("electric_scooter")
-    bicycle = factory.create_transport("bicycle")
-    car = factory.create_transport("car")
+    # Создаем объекты транспортных средств с помощью соответствующих фабрик
+    electric_scooter = electric_scooter_factory.create_transport()
+    bicycle = bicycle_factory.create_transport()
+    car = car_factory.create_transport()
 
     # Используем методы объектов для получения информации о скорости и вместимости
     print(f"Скорость электросамоката: {electric_scooter.get_speed()} км/ч")
@@ -73,5 +83,6 @@ def execute_application():
 
     print(f"Скорость автомобиля: {car.get_speed()} км/ч")
     print(f"Вместимость автомобиля: {car.get_capacity()} единиц продукции")
+
 if __name__ == "__main__":
     execute_application()
