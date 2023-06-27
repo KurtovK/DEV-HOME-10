@@ -22,6 +22,18 @@ class House:
 class HouseBuilder:
     def __init__(self):
         self.house = House()
+
+    def build_walls(self):
+        self.house.add_part("стены")
+
+    def build_doors(self):
+        self.house.add_part("двери")
+
+    def build_windows(self):
+        self.house.add_part("окна")
+
+    def build_roof(self):
+        self.house.add_part("крыша")
 def execute_application():
     pass
 if __name__ == "__main__":
