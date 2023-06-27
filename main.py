@@ -37,6 +37,10 @@ class HouseBuilder:
 
     def get_house(self):
         return self.house
+
+class Director:
+    def __init__(self, builder):
+        self.builder = builder
 def execute_application():
     pass
 if __name__ == "__main__":
