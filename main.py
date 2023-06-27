@@ -12,6 +12,12 @@
 class House:
     def __init__(self):
         self.parts = []
+
+    def add_part(self, part):
+        self.parts.append(part)
+
+    def list_parts(self):
+        print(f"Дом состоит из: {', '.join(self.parts)}")
 def execute_application():
     pass
 if __name__ == "__main__":
