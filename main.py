@@ -42,6 +42,19 @@ class Car(Transport):
 
     def get_capacity(self):
         return 10
+
+class TransportFactory:
+    @staticmethod
+    def create_transport(transport_type):
+        if transport_type == "electric_scooter":
+            return ElectricScooter()
+        elif transport_type == "bicycle":
+            return Bicycle()
+        elif transport_type == "car":
+            return Car()
+        else:
+            raise ValueError("Недопустимый тип транспорта")
+
 def execute_application():
     pass
 if __name__ == "__main__":
