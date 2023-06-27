@@ -41,6 +41,12 @@ class HouseBuilder:
 class Director:
     def __init__(self, builder):
         self.builder = builder
+
+    def construct_house(self):
+        self.builder.build_walls()
+        self.builder.install_doors()
+        self.builder.insert_windows()
+        self.builder.lay_roof()
 def execute_application():
     pass
 if __name__ == "__main__":
