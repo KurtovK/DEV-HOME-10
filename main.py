@@ -34,6 +34,9 @@ class HouseBuilder:
 
     def build_roof(self):
         self.house.add_part("крыша")
+
+    def get_house(self):
+        return self.house
 def execute_application():
     pass
 if __name__ == "__main__":
