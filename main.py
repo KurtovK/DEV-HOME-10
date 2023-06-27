@@ -21,6 +21,27 @@ class Transport(ABC):
     @abstractmethod
     def get_capacity(self):
         pass
+
+class ElectricScooter(Transport):
+    def get_speed(self):
+        return 20
+
+    def get_capacity(self):
+        return 1
+
+class Bicycle(Transport):
+    def get_speed(self):
+        return 15
+
+    def get_capacity(self):
+        return 2
+
+class Car(Transport):
+    def get_speed(self):
+        return 60
+
+    def get_capacity(self):
+        return 10
 def execute_application():
     pass
 if __name__ == "__main__":
