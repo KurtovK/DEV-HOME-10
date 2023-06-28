@@ -60,37 +60,21 @@ class MyCustomStrategy(Strategy):
         pass
 
 
-class StrategyDecorator(Strategy):
-    def __init__(self, strategy):
-        self._strategy = strategy
-
-    @abstractmethod
-    def calculate_route(self, start_point, end_point):
-        pass
-
-
-class RouteLogger(StrategyDecorator):
-    def __init__(self, strategy):
-        super().__init__(strategy)
-
-    def calculate_route(self, start_point, end_point):
-        route = self._strategy.calculate_route(start_point, end_point)
-        print(f"Маршрут построен: {route}")
-        return route
-
-
 class Navigator:
     def __init__(self, strategy):
-        self.strategy = strategy
+        self.__strategy = strategy
 
     def build_route(self, start_point, end_point):
-        route = self.strategy.calculate_route(start_point, end_point)
+        route = self.__strategy.calculate_route(start_point, end_point)
         return route
 
     def set_strategy(self, strategy):
         if not isinstance(strategy, Strategy):
             raise TypeError("Стратегия должна быть объектом класса, наследующегося от Strategy.")
-        self.strategy = strategy
+        self.__strategy = strategy
+
+
+
 
 
 class BaseStrategy(ABC):
@@ -131,37 +115,31 @@ def execute_application():
     cycling_strategy = CyclingStrategy()
     my_custom_strategy = MyCustomStrategy()
 
-    decorated_driving_strategy = RouteLogger(driving_strategy)
-
-    navigator = Navigator(decorated_driving_strategy)
+    navigator = Navigator(driving_strategy)  
     start_point = (55.753960, 37.620393)  # координаты Красной площади в Москве
     end_point = (55.715230, 37.552450)  # координаты парка Горького в Москве
 
-    # Стратегия по умолчанию - RouteLogger
     route = navigator.build_route(start_point, end_point)
-    print(route)  # выводим массив точек маршрута
-    
-    # Переключаем стратегию на WalkingStrategy
+    print(route)
+
     navigator.set_strategy(walking_strategy)
     route = navigator.build_route(start_point, end_point)
     print(route)
-    
-    # Переключаем стратегию на MyCustomStrategy
+
     navigator.set_strategy(my_custom_strategy)
     route = navigator.build_route(start_point, end_point)
     print(route)
-    
-    # Пример использования второго набора классов
+
     navigator2 = Navigator2()
     start_point = Point(0, 0)
     finish_point = Point(10, 10)
-    
+
     navigator2.set_strategy(CarStrategy())
     print(navigator2.build_route(start_point, finish_point))
-    
+
     navigator2.set_strategy(WalkingStrategy2())
     print(navigator2.build_route(start_point, finish_point))
-    
+
     navigator2.set_strategy(PublicTransportStrategy2())
     print(navigator2.build_route(start_point, finish_point))
 if __name__ == "__main__":
