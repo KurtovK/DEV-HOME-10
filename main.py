@@ -61,7 +61,27 @@ def view_top_ten():
         print(record)
     conn.close()
 def execute_application():
-    pass
+    create_table()
+
+    # Добавление результатов игроков
+    add_record("Player 1", 100)
+    add_record("Player 2", 200)
+    add_record("Player 3", 150)
+
+    # Изменение результата игрока
+    update_record("Player 1", 120)
+
+    # Удаление результата игрока
+    delete_record("Player 2")
+
+    # Просмотр содержимого таблицы
+    view_records()
+
+    # Отображение лучшей десятки
+    view_top_ten()
+
+    # Полная очистка таблицы
+    clear_table()
 
 
 if __name__ == '__main__':
